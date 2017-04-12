@@ -1,19 +1,13 @@
 const express = require('express');
 const app = express();
-const { note } = require('./schemas');
+const { note, graphQLNote } = require('./schemas');
 const graphqlHTTP = require('express-graphql');
 const bodyParser = require('body-parser');
+const { handleError } = require('./utils');
+
 
 app.use(bodyParser.json());
 app.use(express.static("./public/"));
-
-function handleError(err,res) {
-	res.status(400)
-		.send({
-			error: err
-		});
-	return;
-}
 
 app.get('/api/notes',(req,res) => {
 	note.find({},{__v: 0},(err,docs) => {
@@ -64,5 +58,7 @@ app.delete('/api/notes/:id', (req,res) => {
 			.send();
 	});
 });
+
+app.use('/api/graphql/notes', graphqlHTTP({schema: graphQLNote}));
 
 app.listen('3500');
