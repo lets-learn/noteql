@@ -23,7 +23,8 @@ const NoteType = new graphql.GraphQLObjectType({
 			type: graphql.GraphQLString
 		},
 		created_at: {
-			type: graphql.GraphQLInt
+			//This there a better type for the date?
+			type: graphql.GraphQLFloat
 		}
 	}
 });
